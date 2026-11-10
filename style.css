@@ -159,3 +159,11 @@ a.e:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.usmap{transition:none}}
 /* thin halo so the map never fights the text */
 .contents main{text-shadow:0 0 2px var(--bg),0 0 2px var(--bg),0 0 4px var(--bg),0 0 7px var(--bg)}
+/* phones and tablets: pointer arrow fixed in the right-hand gutter, mid-screen */
+.mapptr{display:none;position:fixed;right:3px;top:50%;width:0;height:0;margin-top:-8px;border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:11px solid #f2c46d;z-index:2;opacity:0;pointer-events:none;transition:opacity .25s ease}
+@media (hover:none),(max-width:700px){
+ .mapptr{display:block}
+ .mapptr.on{opacity:1}
+ .contents main{padding-bottom:calc(50vh - 1rem)}
+}
+@media (prefers-reduced-motion:reduce){.mapptr{transition:none}}
