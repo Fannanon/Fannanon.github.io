@@ -21,7 +21,7 @@ function initMap(){
   var g=mk('g',{'class':'m-routes'},svg);
   for(var k in M.routes)mk('path',{'class':'m-day',d:M.routes[k]},g);
   glow=mk('path',{'class':'m-glow',d:''},svg);hot=mk('path',{'class':'m-hot',d:''},svg);
-  dotA=mk('circle',{'class':'m-dot',r:4,cx:-99,cy:-99},svg);dotB=mk('circle',{'class':'m-dot m-end',r:5.5,cx:-99,cy:-99},svg);
+  dotA=mk('circle',{'class':'m-dot',r:2.6,cx:-99,cy:-99},svg);dotB=mk('circle',{'class':'m-dot',r:2.6,cx:-99,cy:-99},svg);
   body.insertBefore(svg,body.firstChild);
  }
  function show(li){
