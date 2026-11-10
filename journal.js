@@ -9,6 +9,43 @@
 var body=document.body;
 function $(s,r){return(r||document).querySelector(s)}
 
+/* ---------------- Contents page: wireframe USA map shown behind the list while you hover a day ---------------- */
+function initMap(){
+ var NS='http://www.w3.org/2000/svg',svg,hot,glow,dotA,dotB,M,hideT;
+ function mk(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+ function build(){
+  M=window.JOURNAL_MAP;if(!M)return;
+  svg=mk('svg',{'class':'usmap','viewBox':'-25 -20 1025 650','aria-hidden':'true',focusable:'false',preserveAspectRatio:'xMidYMid meet'});
+  mk('path',{'class':'m-borders',d:M.borders},svg);
+  mk('path',{'class':'m-coast',d:M.coast},svg);
+  var g=mk('g',{'class':'m-routes'},svg);
+  for(var k in M.routes)mk('path',{'class':'m-day',d:M.routes[k]},g);
+  glow=mk('path',{'class':'m-glow',d:''},svg);hot=mk('path',{'class':'m-hot',d:''},svg);
+  dotA=mk('circle',{'class':'m-dot',r:4,cx:-99,cy:-99},svg);dotB=mk('circle',{'class':'m-dot m-end',r:5.5,cx:-99,cy:-99},svg);
+  body.insertBefore(svg,body.firstChild);
+ }
+ function show(li){
+  var a=li&&li.querySelector('a[href]'),m=a&&/^(day-\d+)\.html$/.exec(a.getAttribute('href')||''),d=m&&M&&M.routes[m[1]];
+  clearTimeout(hideT);
+  if(!d){hide();return}
+  hot.setAttribute('d',d);glow.setAttribute('d',d);
+  var nums=d.match(/-?\d+(\.\d+)?/g)||[];
+  if(nums.length>=4){
+   dotA.setAttribute('cx',nums[0]);dotA.setAttribute('cy',nums[1]);
+   dotB.setAttribute('cx',nums[nums.length-2]);dotB.setAttribute('cy',nums[nums.length-1]);
+  }
+  svg.classList.add('on');
+ }
+ function hide(){hideT=setTimeout(function(){if(svg)svg.classList.remove('on')},80)}
+ var main=$('main');
+ main.addEventListener('mouseover',function(e){if(svg)show(e.target.closest&&e.target.closest('li'))});
+ main.addEventListener('mouseleave',hide);
+ main.addEventListener('focusin',function(e){if(svg)show(e.target.closest&&e.target.closest('li'))});
+ main.addEventListener('focusout',hide);
+ var local=location.protocol==='file:'||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+ var sc=document.createElement('script');sc.src='route.js'+(local?'?t='+Date.now():'');sc.onload=build;document.head.appendChild(sc);
+}
+
 /* ---------------- Contents page: time scale ---------------- */
 function initRail(){
  var main=$('main'),rail=document.createElement('div');
@@ -506,7 +543,7 @@ function initPhotos(slug){
  sc.onload=sc.onerror=start;document.head.appendChild(sc);
 }
 
-if(body.classList.contains('contents'))initRail();
+if(body.classList.contains('contents')){initRail();initMap()}
 var slug=body.getAttribute('data-photos');
 if(slug)initPhotos(slug);
 })();

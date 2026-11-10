@@ -144,3 +144,17 @@ a.e:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .lb .lbcap[hidden]{display:none}
 .pn{display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;margin-top:.5rem;min-height:1.5rem}
 .thumbs .ph{position:relative}
+/* wireframe USA behind the contents list, shown while a day is hovered */
+.contents header,.contents main{z-index:1}
+.usmap{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity .35s ease}
+.usmap.on{opacity:1}
+.usmap path,.usmap circle{vector-effect:non-scaling-stroke}
+.usmap .m-borders,.usmap .m-coast,.usmap .m-day,.usmap .m-hot,.usmap .m-glow{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.usmap .m-borders{stroke:var(--accent);stroke-opacity:.2;stroke-width:.7px}
+.usmap .m-coast{stroke:var(--accent);stroke-opacity:.42;stroke-width:1px}
+.usmap .m-day{stroke:var(--accent);stroke-opacity:.55;stroke-width:1.6px}
+.usmap .m-glow{stroke:#f2c46d;stroke-opacity:.22;stroke-width:9px}
+.usmap .m-hot{stroke:#f2c46d;stroke-width:3px}
+.usmap .m-dot{fill:#f2c46d;stroke:none}
+.usmap .m-end{fill:var(--bg);stroke:#f2c46d;stroke-width:2.5px}
+@media (prefers-reduced-motion:reduce){.usmap{transition:none}}
